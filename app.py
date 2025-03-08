@@ -11,10 +11,7 @@ from datetime import datetime
 import warnings
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
 from io import BytesIO
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
 
 # Suppress warnings
 warnings.filterwarnings('ignore')
@@ -37,12 +34,7 @@ if 'submitted' not in st.session_state:
 if 'selected_answers' not in st.session_state:
     st.session_state.selected_answers = {}
 
-# Current user and timestamp
-CURRENT_USER = "rebel47"
-CURRENT_TIME = "2025-03-08 13:23:51"
-
 def extract_text_from_pdf(pdf_file) -> str:
-    """Extract text content from uploaded PDF file using pdfplumber."""
     try:
         text = ""
         with pdfplumber.open(pdf_file) as pdf:
@@ -54,7 +46,6 @@ def extract_text_from_pdf(pdf_file) -> str:
         return ""
 
 def generate_mcqs(content: str, num_questions: int, difficulty: str) -> List[Dict]:
-    """Generate MCQs using Google Gemini API."""
     try:
         prompt = f"""
         Generate exactly {num_questions} multiple choice questions based on the following content.
@@ -101,7 +92,6 @@ def generate_mcqs(content: str, num_questions: int, difficulty: str) -> List[Dic
         return []
 
 def draw_wrapped_text(c, text, x, y, max_width):
-    """Draw text with word wrapping"""
     words = text.split()
     lines = []
     line = ""
@@ -118,7 +108,6 @@ def draw_wrapped_text(c, text, x, y, max_width):
     return y
 
 def generate_pdf(questions, user_answers, correct, total, score_percentage):
-    """Generate PDF with the quiz results"""
     buffer = BytesIO()
     c = canvas.Canvas(buffer, pagesize=letter)
     width, height = letter
@@ -129,12 +118,6 @@ def generate_pdf(questions, user_answers, correct, total, score_percentage):
     # Header
     c.setFont("Helvetica-Bold", 16)
     c.drawString(margin, y, "MCQ Quiz Results")
-    y -= 20
-
-    # User info and timestamp
-    c.setFont("Helvetica", 10)
-    c.drawString(margin, y, f"Generated for: {CURRENT_USER}")
-    c.drawString(margin + 300, y, f"Date: {CURRENT_TIME}")
     y -= 20
 
     # Score
@@ -202,7 +185,6 @@ def main():
     
     # Page Header
     st.title("📚 Lecture Slides MCQ Generator")
-    st.write(f"Welcome, {CURRENT_USER}!")
     st.write("Upload your lecture slides and generate multiple choice questions using Google Gemini!")
 
     # File Upload Section
@@ -221,8 +203,9 @@ def main():
             num_questions = st.number_input(
                 "Number of questions to generate",
                 min_value=1,
-                max_value=30,
-                value=10
+                max_value=25,
+                value=10,
+                help="Maximum 25 questions can be generated at once"
             )
 
         # Action Button
@@ -338,12 +321,11 @@ def main():
                     st.download_button(
                         label="Download PDF",
                         data=pdf_data,
-                        file_name=f"quiz_results_{CURRENT_USER}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
+                        file_name=f"quiz_results.pdf",
                         mime="application/pdf"
                     )
 
 def calculate_score():
-    """Calculate the score based on user answers"""
     correct = 0
     total = len(st.session_state.questions)
     for i, q in enumerate(st.session_state.questions):
