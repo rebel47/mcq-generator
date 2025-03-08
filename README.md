@@ -57,7 +57,7 @@ reportlab
 
 1. Run the Streamlit app locally:
 ```bash
-streamlit run mcq_generator.py
+streamlit run app.py
 ```
 
 2. Or visit the deployed version: [https://mcq-generate.streamlit.app/](https://mcq-generate.streamlit.app/)
