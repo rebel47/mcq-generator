@@ -185,7 +185,8 @@ def main():
     
     # Page Header
     st.title("📚 Lecture Slides MCQ Generator")
-    st.write("Upload your lecture slides and generate multiple choice questions using Google Gemini!")
+    st.write("Upload your lecture slides and generate multiple choice questions!")
+    st.write("Created by: Mohammad Ayaz Alam")
 
     # File Upload Section
     uploaded_file = st.file_uploader("Upload your lecture slides (PDF format)", type=['pdf'])
