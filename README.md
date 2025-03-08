@@ -2,8 +2,6 @@
 
 A streamlined Multiple Choice Question (MCQ) generator that uses Google's Gemini LLM to create questions from PDF lecture slides.
 
-![MCQ Generator](https://raw.githubusercontent.com/rebel47/mcq-generator/main/screenshots/app_screenshot.png)
-
 ## Live Demo 🌐
 
 Try it out here: [MCQ Generator App](https://mcq-generate.streamlit.app/)
