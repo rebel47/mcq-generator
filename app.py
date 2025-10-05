@@ -31,7 +31,7 @@ if not GOOGLE_API_KEY:
     st.stop()
 
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-flash-latest')
+model = genai.GenerativeModel('gemini-2.0-flash-exp')
 
 # Initialize session state with default values
 def initialize_session_state():
