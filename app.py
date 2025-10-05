@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 import json
 import pandas as pd
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Tuple
 import tempfile
 from datetime import datetime
 import warnings
@@ -16,6 +16,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, PageBreak
 from io import BytesIO
 import re
+import hashlib
 
 # Suppress warnings
 warnings.filterwarnings('ignore')
@@ -30,7 +31,7 @@ if not GOOGLE_API_KEY:
     st.stop()
 
 genai.configure(api_key=GOOGLE_API_KEY)
-model = genai.GenerativeModel('gemini-2.0-flash-exp')
+model = genai.GenerativeModel('gemini-flash-latest')
 
 # Initialize session state with default values
 def initialize_session_state():
